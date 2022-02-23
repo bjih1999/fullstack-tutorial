@@ -1,5 +1,11 @@
 const { gql } = require('apollo-server');
 
+/**
+ * api 쿼리로 받을 Query, Mutation, 그리고 거기에 포함된 Object type들이 정의되어 있음
+ *      - Query와 Mutation은 Object tyoe들과 구조적으로 동일하지만 키워드로 등록되어 있어 각각 Read와 Create, Update, Delete 연산을 담당한다.
+ * 
+ */
+
 const typeDefs = gql`
   type Query {
     launches(
