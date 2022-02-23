@@ -1,7 +1,6 @@
 {
   "name": "fullstack-tutorial-server",
   "version": "1.0.0",
-  "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
@@ -34,5 +33,6 @@
       "/node_modules/",
       "/__utils"
     ]
-  }
+  },
+  "description": ""
 }
