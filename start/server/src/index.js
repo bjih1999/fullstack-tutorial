@@ -10,9 +10,13 @@ const LaunchAPI = require('./datasources/launch');
 const UserAPI = require('./datasources/user');
 
 const store = createStore();
-
-
-const server = new ApolloServer({ 
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    dataSources: () => ({
+        launchAPI: new LaunchAPI(),
+        userAPI: new UserAPI({ store }) 
+    }),
     context: async ({ req }) => {
         const auth = req.headers && req.headers.authorization || '';
         const email = Buffer.from(auth, 'base64').toString('ascii');
@@ -21,22 +25,13 @@ const server = new ApolloServer({
                 user: null
             }
         }
-
-        const users = await store.users.findOrCreate({ shere: { email } });
-        const user = users && users[0];
         
-        return {
-            user: {
-                ...user.dateValues
-            }
+        const users = await store.users.findOrCreate({ where: { email } });
+        const user = users && users[0] || null;
+        return { 
+            user: { ...user.dataValues }
         };
     },
-    typeDefs,
-    resolvers,
-    dataSources: () => ({
-        launchAPI: new LaunchAPI(),
-        userAPI: new UserAPI({ store }) 
-    })
  });
 
 server.listen().then(() => {
