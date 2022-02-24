@@ -38,10 +38,12 @@ module.exports.createStore = () => {
     dialect: 'sqlite',
     storage: './store.sqlite',
     operatorsAliases,
-    logging: false,
+    loggingtrue: true,
+    
   });
 
-  const users = db.define('user', {
+
+  const users = db.define('users', {
     id: {
       type: SQL.INTEGER,
       primaryKey: true,
@@ -64,6 +66,8 @@ module.exports.createStore = () => {
     launchId: SQL.INTEGER,
     userId: SQL.INTEGER,
   });
+
+  db.sync();
 
   return { users, trips };
 };
